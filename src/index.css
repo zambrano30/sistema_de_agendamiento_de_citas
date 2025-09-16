@@ -1,10 +1,18 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap');
+
+
 :root {
   --color-primary:#F6F9F8;
   --color-secondary:#B8D7D4 ;
   --color-terciary:#64A7C3;
   
+}
+.logo {
+  font-family: "Just Me Again Down Here", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .bg-primary {

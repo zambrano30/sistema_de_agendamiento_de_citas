@@ -26,11 +26,11 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm p-4 relative">
+    <header className="bg-primary shadow-sm p-4 relative">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-4">
           <img src="/logo.png" alt="Logo" className="h-12 w-12" />
-          <h1 className="text-2xl font-semibold text-slate-950">Pet care</h1>
+          <h1 className="text-2xl font-semibold text-slate-950 logo">Pet care</h1>
         </div>
         <div className="flex items-center gap-4">
           {/* Hamburger button for mobile */}

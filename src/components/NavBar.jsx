@@ -7,15 +7,15 @@ export default function NavBar({ isMenuOpen }) {
       <ul className={`flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 p-4 lg:p-0`}>
         <li>
           <Link 
-            to="/consulta" 
+            to="/register-customer" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
           >
-            Consultas
+            Registrar
           </Link>
         </li>
         <li>
           <Link 
-            to="/agendamiento" 
+            to="/consult" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
           >
             Agendamiento
