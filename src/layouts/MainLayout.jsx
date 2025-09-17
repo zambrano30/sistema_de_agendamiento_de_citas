@@ -8,7 +8,7 @@ export default function MainLayout({ children }) {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="container mx-auto flex-grow">
-         <AsideBar/>
+         <AsideBar />
         {children}
       </main>
       <Footer />

@@ -43,7 +43,7 @@ export default function Header() {
           
           {/* Navigation and logout button */}
           <div className={`lg:flex items-center gap-4 ${isMenuOpen ? 'absolute top-full left-0 right-0 bg-white shadow-md' : 'hidden'}`}>
-            <NavBar isMenuOpen={isMenuOpen} />
+            <NavBar isMenuOpen={isMenuOpen} onNavigate={() => setIsMenuOpen(false)} />
             <button className="p-2 lg:p-2 hover:bg-gray-100 rounded-lg lg:rounded-full transition-colors flex items-center gap-2 w-full lg:w-auto mx-4 lg:mx-0 mb-4 lg:mb-0">
               <CiLogout size={24} />
               <span className="lg:hidden">Cerrar sesión</span>

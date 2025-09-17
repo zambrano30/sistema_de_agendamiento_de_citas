@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function NavBar({ isMenuOpen }) {
+export default function NavBar({ isMenuOpen, onNavigate }) {
   return (
     <nav className={`w-full lg:w-auto ${isMenuOpen ? 'block' : 'lg:block'}`}>
       <ul className={`flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 p-4 lg:p-0`}>
@@ -9,6 +9,7 @@ export default function NavBar({ isMenuOpen }) {
           <Link 
             to="/register-customer" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
+            onClick={onNavigate}
           >
             Registrar
           </Link>
@@ -17,6 +18,7 @@ export default function NavBar({ isMenuOpen }) {
           <Link 
             to="/consult" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
+            onClick={onNavigate}
           >
             Agendamiento
           </Link>
@@ -25,6 +27,7 @@ export default function NavBar({ isMenuOpen }) {
           <Link 
             to="/productos" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
+            onClick={onNavigate}
           >
             Productos
           </Link>
@@ -33,6 +36,7 @@ export default function NavBar({ isMenuOpen }) {
           <Link 
             to="/informes" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
+            onClick={onNavigate}
           >
             Informes
           </Link>

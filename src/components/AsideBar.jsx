@@ -56,6 +56,7 @@ export default function AsideBar() {
               <Link
                 key={index}
                 to={option.to}
+                onClick={() => setIsOpen(false)}
                 className={`flex items-center text-lg py-3 px-4 rounded-lg font-medium transition-colors duration-200 ${
                   location.pathname === option.to
                     ? "bg-terciary text-white"
