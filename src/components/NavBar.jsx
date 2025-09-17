@@ -16,7 +16,7 @@ export default function NavBar({ isMenuOpen, onNavigate }) {
         </li>
         <li>
           <Link 
-            to="/consult" 
+            to="/schedule-consult" 
             className="block text-slate-600 hover:text-slate-900 font-medium transition-colors py-2 lg:py-0"
             onClick={onNavigate}
           >

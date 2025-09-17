@@ -31,24 +31,31 @@ export default function Login() {
       <h2 className="text-4xl text-slate-950 font-semibold">Pet care</h2>
       <img src="/logo.png" alt="Pet Care Logo" className="w-32 h-32 object-contain" />
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-20 w-full max-w-sm px-4">
-        <input
-          className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          type="text"
-          name="cedula"
-          value={formData.cedula}
-          onChange={handleChange}
-          placeholder="Cédula"
-          required
-        />
-        <input
-          className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Contraseña"
-          required
-        />
+        <div className="flex flex-col gap-1">
+          <label htmlFor="cedula" className="text-sm text-gray-600">Cédula</label>
+          <input
+            className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            type="text"
+            id="cedula"
+            name="cedula"
+            value={formData.cedula}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="password" className="text-sm text-gray-600">Contraseña</label>
+          <input
+            className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
         <span className="text-center text-blue-600 hover:text-blue-800 cursor-pointer transition-colors">
           ¿Olvidaste la contraseña?
         </span>

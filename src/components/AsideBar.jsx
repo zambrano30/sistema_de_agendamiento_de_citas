@@ -26,6 +26,20 @@ export default function AsideBar() {
     ];
   };
 
+  // Efecto para controlar el scroll del body
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    // Limpieza al desmontar el componente
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -72,8 +86,9 @@ export default function AsideBar() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 top-[80px] bg-black/20 z-10"
+          className="fixed inset-0 top-[80px]  z-10 overflow-hidden"
           onClick={toggleMenu}
+          aria-hidden="true"
         ></div>
       )}
     </div>
