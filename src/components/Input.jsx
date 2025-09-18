@@ -1,7 +1,27 @@
 import React from 'react'
 
-export default function Input({placeholder}) {
+export default function Input({
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  name,
+  id,
+  required,
+  disabled,
+  className = ""
+}) {
   return (
-    <input type="text" placeholder={placeholder} className='bg-white text-black w-[250px] py-1 rounded-xl px-2' />
+    <input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      name={name}
+      id={id}
+      required={required}
+      disabled={disabled}
+      className={`form-input ${className}`}
+    />
   )
 }

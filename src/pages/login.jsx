@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../libs/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    cedula: "",
+    email: "",
     password: ""
   });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,28 +22,70 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Limpiar errores previos
+    setIsLoading(true); // Iniciar estado de carga
+    
     try {
-      // Aquí irá la lógica de autenticación
-      navigate("/main");
+      const { email, password } = formData;
+      
+      // Validaciones básicas
+      if (!email || !password) {
+        setError("Por favor completa todos los campos");
+        setIsLoading(false);
+        return;
+      }
+
+      // Intentar iniciar sesión
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      if (userCredential.user) {
+        // Login exitoso
+        console.log("Login exitoso:", userCredential.user.email);
+        navigate("/register-customer");
+      }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
+      
+      // Manejar errores específicos
+      switch (error.code) {
+        case "auth/invalid-email":
+          setError("El correo electrónico no es válido");
+          break;
+        case "auth/user-not-found":
+          setError("No existe una cuenta con este correo electrónico");
+          break;
+        case "auth/wrong-password":
+          setError("Contraseña incorrecta");
+          break;
+        default:
+          setError("Error al iniciar sesión: " + error.message);
+      }
+    } finally {
+      setIsLoading(false); // Finalizar estado de carga
     }
   };
 
   return (
-    <section className="min-h-dvh flex flex-col justify-center items-center min-w-screen gap-5 bg-gray-50">
+    <section className="min-h-dvh flex flex-col justify-center items-center min-w-screen gap-5 bg-primary">
       <h2 className="text-4xl text-slate-950 font-semibold">Pet care</h2>
       <img src="/logo.png" alt="Pet Care Logo" className="w-32 h-32 object-contain" />
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-20 w-full max-w-sm px-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-8 w-full max-w-sm px-4 ">
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
         <div className="flex flex-col gap-1">
-          <label htmlFor="cedula" className="text-sm text-gray-600">Cédula</label>
+          <label htmlFor="email" className="text-sm text-gray-600">Correo Electrónico</label>
           <input
             className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            type="text"
-            id="cedula"
-            name="cedula"
-            value={formData.cedula}
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
+            placeholder="usuario@ejemplo.com"
             required
           />
         </div>
@@ -53,17 +99,36 @@ export default function Login() {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            placeholder="••••••••"
             required
+            disabled={isLoading}
           />
         </div>
-        <span className="text-center text-blue-600 hover:text-blue-800 cursor-pointer transition-colors">
-          ¿Olvidaste la contraseña?
-        </span>
+
+        <button
+          type="submit"
+          className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-center gap-2">
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              Iniciando sesión...
+            </div>
+          ) : (
+            "Iniciar Sesión"
+          )}
+        </button>
+
         <button 
           type="submit"
-          className="bg-blue-600 text-white px-16 py-2 mx-8 hover:bg-blue-700 rounded-full transition-colors font-medium shadow-sm">
-          Entrar
+          className="bg-blue-600 text-white px-16 py-2 mx-8 hover:bg-blue-700 rounded-full transition-colors font-medium shadow-sm"
+        >
+          Iniciar Sesión
         </button>
+
+       
+       
       </form>
     </section>
   );

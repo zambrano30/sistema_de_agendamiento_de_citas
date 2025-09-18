@@ -49,7 +49,7 @@ export default function AsideBar() {
   return (
     <div className="relative">
       <div
-        className={`fixed top-[80px] left-0 h-[calc(100vh-80px)] w-[200px] bg-secondary shadow-lg transform transition-transform duration-300 ease-in-out z-20 ${
+        className={`fixed top-0 left-0 h-[calc(100vh-80px)] w-[200px] bg-secondary shadow-lg transform transition-transform duration-300 ease-in-out z-20 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -64,14 +64,14 @@ export default function AsideBar() {
           )}
         </button>
 
-        <div className="p-6">
+        <div className="p-6 mt-5">
           <nav className="space-y-6">
             {menuOptions.map((option, index) => (
               <Link
                 key={index}
                 to={option.to}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center text-lg py-3 px-4 rounded-lg font-medium transition-colors duration-200 ${
+                className={`flex items-center text-[13px] py-3 px-4 rounded-lg font-medium transition-colors duration-200  ${
                   location.pathname === option.to
                     ? "bg-terciary text-white"
                     : "text-gray-700 hover:bg-gray-100"

@@ -25,3 +25,69 @@
 .bg-terciary{
     background-color: var(--color-terciary);
 }
+
+/* Clases de utilidad para formularios */
+.form-input {
+    background-color: white;
+    color: black;
+    width: 250px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.75rem;
+}
+
+.form-input:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+}
+
+.form-input-alt {
+    background-color: white;
+    border: 1px solid #d1d5db;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+
+
+/* Clases de utilidad para botones */
+.btn-primary {
+    background-color: var(--color-terciary);
+    width: 8rem;
+    border-radius: 0.75rem;
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+}
+
+.btn-primary:disabled {
+    background-color: #60a5fa;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: var(--color-terciary);
+    width: 8rem;
+    border-radius: 0.75rem;
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #dc2626;
+}
+
+.btn-secondary:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+

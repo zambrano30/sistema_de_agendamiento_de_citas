@@ -1,121 +1,230 @@
-import { useState } from 'react';
-import Title from '../components/Title';
-import AsideBar from '../components/AsideBar';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { db, auth } from "../libs/firebase";
+import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import Title from "../components/Title";
+import AsideBar from "../components/AsideBar";
 
 export default function ScheduleConsult() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const clienteId = location.state?.clienteId;
+  const mascotaId = location.state?.mascotaId;
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [clientData, setClientData] = useState(null);
+  const [petData, setPetData] = useState(null);
   const [formData, setFormData] = useState({
-    petName: '',
-    clientName: '',
-    date: '',
-    time: '',
-    veterinarian: ''
+    date: "",
+    time: "",
+    veterinarian: "",
+    motivo: ""
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aquí iría la lógica para enviar los datos
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!clienteId || !mascotaId) return;
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+      try {
+        setIsLoading(true);
+        // Obtener datos del cliente
+        const clienteDoc = await getDoc(doc(db, 'clientes', clienteId));
+        if (clienteDoc.exists()) {
+          setClientData(clienteDoc.data());
+        }
+
+        // Obtener datos de la mascota
+        const mascotaDoc = await getDoc(doc(db, 'mascotas', mascotaId));
+        if (mascotaDoc.exists()) {
+          setPetData(mascotaDoc.data());
+        }
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+        setError('Error al cargar los datos del cliente y mascota');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [clienteId, mascotaId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      // Validaciones básicas
+      if (!formData.date || !formData.time || !formData.veterinarian || !formData.motivo) {
+        setError("Por favor completa todos los campos");
+        return;
+      }
+
+      // Verificar que el usuario está autenticado
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        setError("Debes estar autenticado para agendar una consulta");
+        navigate('/login');
+        return;
+      }
+
+      // Verificar que tenemos los datos necesarios
+      if (!clienteId || !mascotaId) {
+        setError("No se encontró la información del cliente o mascota");
+        navigate('/register-customer');
+        return;
+      }
+
+      // Crear la consulta en Firestore
+      const consultasRef = collection(db, 'consultas');
+      const consultaData = {
+        clienteId,
+        mascotaId,
+        userId: currentUser.uid,
+        fecha: formData.date,
+        hora: formData.time,
+        veterinario: formData.veterinarian,
+        motivo: formData.motivo,
+        estado: 'pendiente',
+        createdAt: new Date().toISOString()
+      };
+
+      const docRef = await addDoc(consultasRef, consultaData);
+      console.log('Consulta agendada con ID:', docRef.id);
+
+      // Navegar a la página de consultas
+      navigate('/cancel-consult', { 
+        state: { 
+          message: 'Consulta agendada exitosamente'
+        }
+      });
+    } catch (error) {
+      console.error('Error al agendar consulta:', error);
+      setError('Error al agendar la consulta: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center px-4 md:px-12 h-full bg-primary mt-8 gap-6">
       <Title text="Nueva Consulta" />
       <AsideBar />
+      
       <form
         onSubmit={handleSubmit}
         className="bg-secondary w-full max-w-[300px] p-6 rounded-lg shadow-md flex flex-col gap-5"
       >
         <h3>Ingrese los datos de la consulta</h3>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="petName" className="text-sm text-gray-600">Nombre de la mascota</label>
-          <input
-            type="text"
-            id="petName"
-            name="petName"
-            value={formData.petName}
-            onChange={handleChange}
-            required
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2"
-          />
-        </div>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
+        {clientData && (
+          <div className="bg-blue-50 border border-blue-200 text-blue-600 px-4 py-2 rounded-lg text-sm">
+            <p><strong>Cliente:</strong> {clientData.nombre}</p>
+            <p><strong>Mascota:</strong> {petData?.nombreMascota}</p>
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="clientName" className="text-sm text-gray-600">Nombre del Cliente</label>
-          <input
-            type="text"
-            id="clientName"
-            name="clientName"
-            value={formData.clientName}
-            onChange={handleChange}
-            required
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="date" className="text-sm text-gray-600">Fecha</label>
+          <label htmlFor="date" className="text-sm text-gray-600">
+            Fecha
+          </label>
           <input
             type="date"
             id="date"
             name="date"
             value={formData.date}
-            onChange={handleChange}
+            onChange={(e) => setFormData({...formData, date: e.target.value})}
+            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            disabled={isLoading}
             required
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2"
+            min={new Date().toISOString().split('T')[0]}
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="time" className="text-sm text-gray-600">Hora</label>
+          <label htmlFor="time" className="text-sm text-gray-600">
+            Hora
+          </label>
           <input
             type="time"
             id="time"
             name="time"
             value={formData.time}
-            onChange={handleChange}
+            onChange={(e) => setFormData({...formData, time: e.target.value})}
+            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            disabled={isLoading}
             required
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2"
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="veterinarian" className="text-sm text-gray-600">Veterinario</label>
-          <select
+          <label htmlFor="veterinarian" className="text-sm text-gray-600">
+            Veterinario
+          </label>
+          <input
+            type="text"
             id="veterinarian"
             name="veterinarian"
             value={formData.veterinarian}
-            onChange={handleChange}
+            onChange={(e) => setFormData({...formData, veterinarian: e.target.value})}
+            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            disabled={isLoading}
             required
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2"
-          >
-            <option value="">Seleccione un veterinario</option>
-            <option value="vet1">Dr. García</option>
-            <option value="vet2">Dra. Rodríguez</option>
-          </select>
+          />
         </div>
 
-        <div className="flex gap-4 justify-end">
-          <button 
-            type="button" 
-            className="bg-terciary w-20 rounded-4xl hover:text-white cursor-pointer"
+        <div className="flex flex-col gap-1">
+          <label htmlFor="motivo" className="text-sm text-gray-600">
+            Motivo de la consulta
+          </label>
+          <textarea
+            id="motivo"
+            name="motivo"
+            value={formData.motivo}
+            onChange={(e) => setFormData({...formData, motivo: e.target.value})}
+            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
+            rows={3}
+            disabled={isLoading}
+            required
+          />
+        </div>
+
+        <div className="flex gap-4 justify-center mt-4">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
           >
-            Cancelar
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span>Agendando...</span>
+              </div>
+            ) : (
+              "Agendar"
+            )}
           </button>
           <button 
-            type="submit" 
-            className="bg-terciary w-20 rounded-4xl hover:text-white cursor-pointer"
+            type="button"
+            onClick={() => {
+              if (confirm('¿Está seguro que desea cancelar? Los datos no guardados se perderán.')) {
+                navigate(-1);
+              }
+            }}
+            disabled={isLoading}
+            className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
-            Agendar
+            Cancelar
           </button>
         </div>
       </form>
     </div>
   );
 }
-
