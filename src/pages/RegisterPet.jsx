@@ -4,6 +4,7 @@ import { db, auth } from "../libs/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import AsideBar from "../components/AsideBar";
 import Title from "../components/Title";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 export default function RegisterPet() {
   const navigate = useNavigate();
@@ -84,15 +85,18 @@ export default function RegisterPet() {
   return (
     <div className="flex flex-col h-full">
       <Title text="Registro de Mascota" />
+      <HamburgerMenu />
       <div className="flex flex-1">
-        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
-          <AsideBar className="h-full" />
+        {/* AsideBar solo visible en desktop */}
+        <div className="hidden lg:flex flex-col items-end px-4 md:px-12 bg-primary mt-2 gap-6 h-full">
+          <AsideBar />
         </div>
-        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        {/* Contenedor principal - ocupa todo el ancho en móvil, flex-1 en desktop */}
+        <div className="flex-1 flex flex-col items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 bg-primary mt-2 gap-4 h-full">
 
         <form
           onSubmit={handleSubmit}
-          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5 mt-10"
+          className="bg-secondary w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-3 sm:p-4 md:p-6 rounded-lg shadow-md flex flex-col gap-4 mt-2 sm:mt-3 md:mt-4 mx-auto"
         >
             <h3>Ingrese los datos de la mascota</h3>
 
@@ -110,7 +114,7 @@ export default function RegisterPet() {
                 type="text"
                 id="nombreMascota"
                 name="nombreMascota"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.nombreMascota}
                 onChange={(e) =>
                   setFormData({ ...formData, nombreMascota: e.target.value })
@@ -128,7 +132,7 @@ export default function RegisterPet() {
                 type="text"
                 id="especie"
                 name="especie"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.especie}
                 onChange={(e) =>
                   setFormData({ ...formData, especie: e.target.value })
@@ -146,7 +150,7 @@ export default function RegisterPet() {
                 type="text"
                 id="raza"
                 name="raza"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.raza}
                 onChange={(e) =>
                   setFormData({ ...formData, raza: e.target.value })
@@ -164,7 +168,7 @@ export default function RegisterPet() {
                 type="number"
                 id="edad"
                 name="edad"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.edad}
                 onChange={(e) =>
                   setFormData({ ...formData, edad: e.target.value })
@@ -184,7 +188,7 @@ export default function RegisterPet() {
                 type="text"
                 id="color"
                 name="color"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.color}
                 onChange={(e) =>
                   setFormData({ ...formData, color: e.target.value })
@@ -194,11 +198,11 @@ export default function RegisterPet() {
               />
             </div>
 
-            <div className="flex gap-4 justify-end mt-4">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center sm:justify-end mt-4">
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+                className="bg-terciary w-full sm:w-32 px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
@@ -221,7 +225,7 @@ export default function RegisterPet() {
                   }
                 }}
                 disabled={isLoading}
-                className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-terciary w-full sm:w-32 px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 Cancelar
               </button>

@@ -5,6 +5,7 @@ import { collection, addDoc } from "firebase/firestore";
 import AsideBar from "../components/AsideBar";
 import Buttons from "../components/Buttons";
 import Title from "../components/Title";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 export default function RegisterCliente() {
   const navigate = useNavigate();
@@ -68,15 +69,18 @@ export default function RegisterCliente() {
   return (
     <div className="flex flex-col h-full">
       <Title text="Registro de Cliente" />
+      <HamburgerMenu />
       <div className="flex flex-1">
-        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        {/* AsideBar solo visible en desktop */}
+        <div className="hidden lg:flex flex-col items-end px-4 md:px-12 bg-primary mt-2 gap-6 h-full">
           <AsideBar className="h-full" />
         </div>
-        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        {/* Contenedor principal - ocupa todo el ancho en móvil, flex-1 en desktop */}
+        <div className="flex-1 flex flex-col items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 bg-primary mt-2 gap-4 h-full">
 
         <form
           onSubmit={handleSubmit}
-          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5 mt-10"
+          className="bg-secondary w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-3 sm:p-4 md:p-6 rounded-lg shadow-md flex flex-col gap-4 mt-2 sm:mt-3 md:mt-4 mx-auto"
         >
             <h3>Ingrese los datos del cliente</h3>
 
@@ -94,7 +98,7 @@ export default function RegisterCliente() {
                 type="text"
                 id="nombre"
                 name="nombre"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.nombre}
                 onChange={(e) =>
                   setFormData({ ...formData, nombre: e.target.value })
@@ -112,7 +116,7 @@ export default function RegisterCliente() {
                 type="text"
                 id="cedula"
                 name="cedula"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.cedula}
                 onChange={(e) =>
                   setFormData({ ...formData, cedula: e.target.value })
@@ -130,7 +134,7 @@ export default function RegisterCliente() {
                 type="email"
                 id="correo"
                 name="correo"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.correo}
                 onChange={(e) =>
                   setFormData({ ...formData, correo: e.target.value })
@@ -148,7 +152,7 @@ export default function RegisterCliente() {
                 type="tel"
                 id="telefono"
                 name="telefono"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.telefono}
                 onChange={(e) =>
                   setFormData({ ...formData, telefono: e.target.value })
@@ -166,7 +170,7 @@ export default function RegisterCliente() {
                 type="text"
                 id="direccion"
                 name="direccion"
-                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                 value={formData.direccion}
                 onChange={(e) =>
                   setFormData({ ...formData, direccion: e.target.value })
@@ -176,11 +180,11 @@ export default function RegisterCliente() {
               />
             </div>
 
-            <div className="flex gap-4 justify-end mt-4">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center sm:justify-end mt-4">
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+                className="bg-terciary w-full sm:w-32 px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
@@ -203,7 +207,7 @@ export default function RegisterCliente() {
                   }
                 }}
                 disabled={isLoading}
-                className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-terciary w-full sm:w-32 px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 Cancelar
               </button>

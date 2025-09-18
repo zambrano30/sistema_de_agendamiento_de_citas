@@ -4,6 +4,7 @@ import { db, auth } from "../libs/firebase";
 import { collection, addDoc, doc, getDoc } from "firebase/firestore";
 import Title from "../components/Title";
 import AsideBar from "../components/AsideBar";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 export default function ScheduleConsult() {
   const navigate = useNavigate();
@@ -110,15 +111,18 @@ export default function ScheduleConsult() {
   return (
     <div className="flex flex-col h-full">
       <Title text="Nueva Consulta" />
+      <HamburgerMenu />
       <div className="flex flex-1">
-        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        {/* AsideBar solo visible en desktop */}
+        <div className="hidden lg:flex flex-col items-end px-4 md:px-12 bg-primary mt-2 gap-6 h-full">
           <AsideBar className="h-full" />
         </div>
-        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        {/* Contenedor principal - ocupa todo el ancho en móvil, flex-1 en desktop */}
+        <div className="flex-1 flex flex-col items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 bg-primary mt-2 gap-4 h-full">
 
         <form
           onSubmit={handleSubmit}
-          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5"
+          className="bg-secondary w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-3 sm:p-4 md:p-6 rounded-lg shadow-md flex flex-col gap-4 mt-2 sm:mt-3 md:mt-4 mx-auto"
         >
         <h3>Ingrese los datos de la consulta</h3>
 
@@ -145,7 +149,7 @@ export default function ScheduleConsult() {
             name="date"
             value={formData.date}
             onChange={(e) => setFormData({...formData, date: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
             min={new Date().toISOString().split('T')[0]}
@@ -162,7 +166,7 @@ export default function ScheduleConsult() {
             name="time"
             value={formData.time}
             onChange={(e) => setFormData({...formData, time: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
@@ -178,7 +182,7 @@ export default function ScheduleConsult() {
             name="veterinarian"
             value={formData.veterinarian}
             onChange={(e) => setFormData({...formData, veterinarian: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
@@ -193,18 +197,18 @@ export default function ScheduleConsult() {
             name="motivo"
             value={formData.motivo}
             onChange={(e) => setFormData({...formData, motivo: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
             rows={3}
             disabled={isLoading}
             required
           />
         </div>
 
-        <div className="flex gap-4 justify-end mt-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center sm:justify-end mt-4">
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+            className="bg-terciary w-full sm:w-32 px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed text-sm sm:text-base"
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">
@@ -215,7 +219,7 @@ export default function ScheduleConsult() {
               "Agendar"
             )}
           </button>
-          <button 
+          <button
             type="button"
             onClick={() => {
               if (confirm('¿Está seguro que desea cancelar? Los datos no guardados se perderán.')) {
@@ -223,7 +227,7 @@ export default function ScheduleConsult() {
               }
             }}
             disabled={isLoading}
-            className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="bg-terciary w-full sm:w-32 px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm sm:text-base"
           >
             Cancelar
           </button>

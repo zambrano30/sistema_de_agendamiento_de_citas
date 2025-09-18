@@ -66,10 +66,10 @@ export default function Login() {
   };
 
   return (
-    <section className="min-h-dvh flex flex-col justify-center items-center min-w-screen gap-5 bg-primary">
-      <h2 className="text-4xl text-slate-950 font-semibold">Pet care</h2>
-      <img src="/logo.png" alt="Pet Care Logo" className="w-32 h-32 object-contain" />
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-8 w-full max-w-sm px-4 ">
+    <section className="min-h-screen flex flex-col justify-center items-center w-full gap-4 sm:gap-5 bg-primary px-4">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl text-slate-950 font-semibold text-center">Pet care</h2>
+      <img src="/logo.png" alt="Pet Care Logo" className="w-24 h-24 sm:w-32 sm:h-32 object-contain" />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-8 w-full max-w-sm px-4">
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
             {error}
@@ -79,7 +79,7 @@ export default function Login() {
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="text-sm text-gray-600">Correo Electrónico</label>
           <input
-            className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all w-full"
             type="email"
             id="email"
             name="email"
@@ -93,7 +93,7 @@ export default function Login() {
         <div className="flex flex-col gap-1">
           <label htmlFor="password" className="text-sm text-gray-600">Contraseña</label>
           <input
-            className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            className="bg-white border border-gray-300 text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all w-full"
             type="password"
             id="password"
             name="password"
@@ -107,7 +107,7 @@ export default function Login() {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed w-full"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -119,16 +119,6 @@ export default function Login() {
             "Iniciar Sesión"
           )}
         </button>
-
-        <button 
-          type="submit"
-          className="bg-blue-600 text-white px-16 py-2 mx-8 hover:bg-blue-700 rounded-full transition-colors font-medium shadow-sm"
-        >
-          Iniciar Sesión
-        </button>
-
-       
-       
       </form>
     </section>
   );

@@ -30,7 +30,8 @@
 .form-input {
     background-color: white;
     color: black;
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     padding: 0.25rem 0.5rem;
     border-radius: 0.75rem;
 }

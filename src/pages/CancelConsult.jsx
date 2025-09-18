@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, doc, updateDoc, orderBy } from "fire
 import AsideBar from "../components/AsideBar";
 import Title from "../components/Title";
 import Pagination from "../components/Pagination";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 export default function CancelConsult() {
   const navigate = useNavigate();
@@ -154,20 +155,21 @@ export default function CancelConsult() {
   return (
     <div className="flex flex-col h-full">
       <Title text="Gestión de Consultas" />
+      <HamburgerMenu />
       <div className="flex flex-1">
-        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        <div className="hidden lg:flex flex-col items-end px-4 md:px-12 bg-primary mt-2 gap-6 h-full">
           <AsideBar className="h-full" />
         </div>
-        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+        <div className="flex-1 flex flex-col items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 bg-primary mt-2 gap-4 h-full">
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm mx-auto">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-2 rounded-lg text-sm">
+        <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-2 rounded-lg text-sm mx-auto">
           {success}
         </div>
       )}
@@ -181,8 +183,8 @@ export default function CancelConsult() {
           No hay consultas programadas
         </div>
       ) : (
-        <div className="w-full max-w-5xl overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="w-full max-w-full sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl overflow-x-auto">
+          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden text-sm">
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-2 px-4 text-left">Mascota</th>

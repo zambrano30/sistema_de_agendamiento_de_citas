@@ -78,7 +78,7 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
-      <div className="max-w-lg w-full bg-white rounded-lg shadow-xl p-8">
+      <div className="max-w-lg w-full bg-white rounded-lg shadow-xl p-4 sm:p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Crear Cuenta</h1>
           <p className="text-gray-600">Completa tus datos para registrarte</p>

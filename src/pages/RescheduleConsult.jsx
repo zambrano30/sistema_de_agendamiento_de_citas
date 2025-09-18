@@ -4,6 +4,7 @@ import { db, auth } from "../libs/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Title from "../components/Title";
 import AsideBar from "../components/AsideBar";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 export default function RescheduleConsult() {
   const navigate = useNavigate();
@@ -121,11 +122,11 @@ export default function RescheduleConsult() {
       <div className="flex flex-col h-full">
         <Title text="Reagendar Consulta" />
         <div className="flex flex-1">
-          <div className="flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+          <div className="hidden lg:flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-2 gap-6 h-full">
             <AsideBar className="h-full" />
           </div>
-          <div className="flex-1 flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+          <div className="flex-1 flex flex-col items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 h-full bg-primary mt-2 gap-4 h-full">
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm mx-auto">
               No se encontró la consulta a reagendar
             </div>
           </div>
@@ -137,15 +138,16 @@ export default function RescheduleConsult() {
   return (
     <div className="flex flex-col h-full">
       <Title text="Reagendar Consulta" />
+      <HamburgerMenu />
       <div className="flex flex-1">
-        <div className="flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+        <div className="hidden lg:flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-2 gap-6 h-full">
           <AsideBar className="h-full" />
         </div>
-        <div className="flex-1 flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+        <div className="flex-1 flex flex-col items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 h-full bg-primary mt-2 gap-4 h-full">
         
         <form
           onSubmit={handleSubmit}
-          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5"
+          className="bg-secondary w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-3 sm:p-4 md:p-6 rounded-lg shadow-md flex flex-col gap-4 mt-2 sm:mt-3 md:mt-4 mx-auto"
         >
         <h3>Reagendar Consulta</h3>
 
@@ -173,7 +175,7 @@ export default function RescheduleConsult() {
             name="date"
             value={formData.date}
             onChange={(e) => setFormData({...formData, date: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
             min={new Date().toISOString().split('T')[0]}
@@ -190,7 +192,7 @@ export default function RescheduleConsult() {
             name="time"
             value={formData.time}
             onChange={(e) => setFormData({...formData, time: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
@@ -206,7 +208,7 @@ export default function RescheduleConsult() {
             name="veterinarian"
             value={formData.veterinarian}
             onChange={(e) => setFormData({...formData, veterinarian: e.target.value})}
-            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white border border-gray-300 text-black w-full py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-terciary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
