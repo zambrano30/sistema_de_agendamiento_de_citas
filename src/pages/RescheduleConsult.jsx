@@ -118,24 +118,35 @@ export default function RescheduleConsult() {
 
   if (!consultaId) {
     return (
-      <div className="flex flex-col items-center px-4 md:px-12 h-full bg-primary mt-8 gap-6">
+      <div className="flex flex-col h-full">
         <Title text="Reagendar Consulta" />
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
-          No se encontró la consulta a reagendar
+        <div className="flex flex-1">
+          <div className="flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+            <AsideBar className="h-full" />
+          </div>
+          <div className="flex-1 flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+              No se encontró la consulta a reagendar
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center px-4 md:px-12 h-full bg-primary mt-8 gap-6">
+    <div className="flex flex-col h-full">
       <Title text="Reagendar Consulta" />
-      <AsideBar />
-      
-      <form
-        onSubmit={handleSubmit}
-        className="bg-secondary w-full max-w-[300px] p-6 rounded-lg shadow-md flex flex-col gap-5"
-      >
+      <div className="flex flex-1">
+        <div className="flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+          <AsideBar className="h-full" />
+        </div>
+        <div className="flex-1 flex flex-col items-end px-4 md:px-12 h-full bg-primary mt-8 gap-6 h-full">
+        
+        <form
+          onSubmit={handleSubmit}
+          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5"
+        >
         <h3>Reagendar Consulta</h3>
 
         {error && (
@@ -162,7 +173,7 @@ export default function RescheduleConsult() {
             name="date"
             value={formData.date}
             onChange={(e) => setFormData({...formData, date: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
             min={new Date().toISOString().split('T')[0]}
@@ -179,7 +190,7 @@ export default function RescheduleConsult() {
             name="time"
             value={formData.time}
             onChange={(e) => setFormData({...formData, time: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
@@ -195,13 +206,13 @@ export default function RescheduleConsult() {
             name="veterinarian"
             value={formData.veterinarian}
             onChange={(e) => setFormData({...formData, veterinarian: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
         </div>
 
-        <div className="flex gap-4 justify-center mt-4">
+        <div className="flex gap-4 justify-end mt-4">
           <button
             type="submit"
             disabled={isLoading}
@@ -230,6 +241,8 @@ export default function RescheduleConsult() {
           </button>
         </div>
       </form>
+      </div>
+    </div>
     </div>
   );
 }

@@ -47,30 +47,62 @@ export default function AsideBar() {
   const menuOptions = getMenuOptions();
 
   return (
-    <div className="relative">
-      <div
-        className={`fixed top-0 left-0 h-[calc(100vh-80px)] w-[200px] bg-secondary shadow-lg transform transition-transform duration-300 ease-in-out z-20 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <button
-          onClick={toggleMenu}
-          className="absolute -right-10 top-[50%] transform -translate-y-1/2 p-2 bg-secondary rounded-r-md shadow-md hover:bg-gray-50 focus:outline-none transition-colors duration-200"
+    <>
+      {/* Mobile sidebar - ocultable */}
+      <div className="lg:hidden relative">
+        <div
+          className={`fixed top-[80px] left-0 h-[calc(100vh-160px)] w-[200px] bg-secondary shadow-lg transform transition-transform duration-300 ease-in-out z-20 ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
-          {isOpen ? (
-            <IoChevronBackOutline className="w-6 h-6 text-gray-600" />
-          ) : (
-            <IoChevronForwardOutline className="w-6 h-6 text-gray-600" />
-          )}
-        </button>
+          <button
+            onClick={toggleMenu}
+            className="absolute -right-10 top-[50%] transform -translate-y-1/2 p-2 bg-secondary rounded-r-md shadow-md hover:bg-gray-50 focus:outline-none transition-colors duration-200"
+          >
+            {isOpen ? (
+              <IoChevronBackOutline className="w-6 h-6 text-gray-600" />
+            ) : (
+              <IoChevronForwardOutline className="w-6 h-6 text-gray-600" />
+            )}
+          </button>
 
-        <div className="p-6 mt-5">
-          <nav className="space-y-6">
+          <div className="p-4 mt-2">
+            <nav className="space-y-4">
+              {menuOptions.map((option, index) => (
+                <Link
+                  key={index}
+                  to={option.to}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center text-[13px] py-3 px-4 rounded-lg font-medium transition-colors duration-200  ${
+                    location.pathname === option.to
+                      ? "bg-terciary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <span>{option.label}</span>
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+
+        {isOpen && (
+          <div
+            className="fixed inset-0 top-[80px] z-10 bg-black bg-opacity-30"
+            onClick={toggleMenu}
+            aria-hidden="true"
+          ></div>
+        )}
+      </div>
+
+      {/* Desktop sidebar - siempre visible */}
+      <div className="hidden lg:block w-[200px] mr-8 h-full">
+        <div className="bg-secondary shadow-lg rounded-lg p-4 h-full">
+          <nav className="space-y-4">
             {menuOptions.map((option, index) => (
               <Link
                 key={index}
                 to={option.to}
-                onClick={() => setIsOpen(false)}
                 className={`flex items-center text-[13px] py-3 px-4 rounded-lg font-medium transition-colors duration-200  ${
                   location.pathname === option.to
                     ? "bg-terciary text-white"
@@ -83,14 +115,6 @@ export default function AsideBar() {
           </nav>
         </div>
       </div>
-
-      {isOpen && (
-        <div
-          className="fixed inset-0 top-[80px]  z-10 overflow-hidden"
-          onClick={toggleMenu}
-          aria-hidden="true"
-        ></div>
-      )}
-    </div>
+    </>
   );
 }

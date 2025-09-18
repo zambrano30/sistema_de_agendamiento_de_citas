@@ -15,7 +15,7 @@ export default function RegisterCliente() {
     cedula: "",
     correo: "",
     telefono: "",
-    direccion: ""
+    direccion: "",
   });
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,13 @@ export default function RegisterCliente() {
 
     try {
       // Validaciones básicas
-      if (!formData.nombre || !formData.cedula || !formData.correo || !formData.telefono || !formData.direccion) {
+      if (
+        !formData.nombre ||
+        !formData.cedula ||
+        !formData.correo ||
+        !formData.telefono ||
+        !formData.direccion
+      ) {
         setError("Por favor completa todos los campos");
         return;
       }
@@ -34,146 +40,177 @@ export default function RegisterCliente() {
       const currentUser = auth.currentUser;
       if (!currentUser) {
         setError("Debes estar autenticado para registrar un cliente");
-        navigate('/login');
+        navigate("/login");
         return;
       }
 
       // Guardar los datos en Firestore
-      const clientesRef = collection(db, 'clientes');
+      const clientesRef = collection(db, "clientes");
       const clienteData = {
         ...formData,
         userId: currentUser.uid,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       const docRef = await addDoc(clientesRef, clienteData);
-      console.log('Cliente registrado con ID:', docRef.id);
+      console.log("Cliente registrado con ID:", docRef.id);
 
       // Navegar a la siguiente página con el ID del cliente
-      navigate('/register-pet', { state: { clienteId: docRef.id } });
+      navigate("/register-pet", { state: { clienteId: docRef.id } });
     } catch (error) {
-      console.error('Error al registrar cliente:', error);
-      setError('Error al registrar el cliente: ' + error.message);
+      console.error("Error al registrar cliente:", error);
+      setError("Error al registrar el cliente: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center px-4 md:px-12 h-full bg-primary mt-8 gap-6">  
-      <Title text="Registro de Cliente"/>
-      
-      <form
-        onSubmit={handleSubmit}
-        className="bg-secondary w-full max-w-[300px] p-6 rounded-lg shadow-md flex flex-col gap-5"
-      >
-        <h3>Ingrese los datos del cliente</h3>
-        
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
-            {error}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="nombre" className="text-sm text-gray-600">Nombre</label>
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
-            value={formData.nombre}
-            onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-            disabled={isLoading}
-            required
-          />
+    <div className="flex flex-col h-full">
+      <Title text="Registro de Cliente" />
+      <div className="flex flex-1">
+        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+          <AsideBar className="h-full" />
         </div>
+        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="cedula" className="text-sm text-gray-600">Cédula</label>
-          <input
-            type="text"
-            id="cedula"
-            name="cedula"
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
-            value={formData.cedula}
-            onChange={(e) => setFormData({...formData, cedula: e.target.value})}
-            disabled={isLoading}
-            required
-          />
-        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5 mt-10"
+        >
+            <h3>Ingrese los datos del cliente</h3>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="correo" className="text-sm text-gray-600">Correo</label>
-          <input
-            type="email"
-            id="correo"
-            name="correo"
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
-            value={formData.correo}
-            onChange={(e) => setFormData({...formData, correo: e.target.value})}
-            disabled={isLoading}
-            required
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="telefono" className="text-sm text-gray-600">Teléfono</label>
-          <input
-            type="tel"
-            id="telefono"
-            name="telefono"
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
-            value={formData.telefono}
-            onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-            disabled={isLoading}
-            required
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="direccion" className="text-sm text-gray-600">Dirección</label>
-          <input
-            type="text"
-            id="direccion"
-            name="direccion"
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
-            value={formData.direccion}
-            onChange={(e) => setFormData({...formData, direccion: e.target.value})}
-            disabled={isLoading}
-            required
-          />
-        </div>
-
-        <div className="flex gap-4 justify-center mt-4">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                <span>Registrando...</span>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+                {error}
               </div>
-            ) : (
-              "Registrar"
             )}
-          </button>
-          <button 
-            type="button"
-            onClick={() => {
-              if (confirm('¿Está seguro que desea cancelar? Los datos no guardados se perderán.')) {
-                navigate(-1);
-              }
-            }}
-            disabled={isLoading}
-            className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Cancelar
-          </button>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="nombre" className="text-sm text-gray-600">
+                Nombre
+              </label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                value={formData.nombre}
+                onChange={(e) =>
+                  setFormData({ ...formData, nombre: e.target.value })
+                }
+                disabled={isLoading}
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="cedula" className="text-sm text-gray-600">
+                Cédula
+              </label>
+              <input
+                type="text"
+                id="cedula"
+                name="cedula"
+                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                value={formData.cedula}
+                onChange={(e) =>
+                  setFormData({ ...formData, cedula: e.target.value })
+                }
+                disabled={isLoading}
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="correo" className="text-sm text-gray-600">
+                Correo
+              </label>
+              <input
+                type="email"
+                id="correo"
+                name="correo"
+                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                value={formData.correo}
+                onChange={(e) =>
+                  setFormData({ ...formData, correo: e.target.value })
+                }
+                disabled={isLoading}
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="telefono" className="text-sm text-gray-600">
+                Teléfono
+              </label>
+              <input
+                type="tel"
+                id="telefono"
+                name="telefono"
+                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                value={formData.telefono}
+                onChange={(e) =>
+                  setFormData({ ...formData, telefono: e.target.value })
+                }
+                disabled={isLoading}
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="direccion" className="text-sm text-gray-600">
+                Dirección
+              </label>
+              <input
+                type="text"
+                id="direccion"
+                name="direccion"
+                className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                value={formData.direccion}
+                onChange={(e) =>
+                  setFormData({ ...formData, direccion: e.target.value })
+                }
+                disabled={isLoading}
+                required
+              />
+            </div>
+
+            <div className="flex gap-4 justify-end mt-4">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-blue-600 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Registrando...</span>
+                  </div>
+                ) : (
+                  "Registrar"
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (
+                    confirm(
+                      "¿Está seguro que desea cancelar? Los datos no guardados se perderán."
+                    )
+                  ) {
+                    navigate(-1);
+                  }
+                }}
+                disabled={isLoading}
+                className="bg-terciary w-32 rounded-xl text-white py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

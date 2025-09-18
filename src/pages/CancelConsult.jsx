@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { db, auth } from "../libs/firebase";
 import { collection, query, where, getDocs, doc, updateDoc, orderBy } from "firebase/firestore";
+import AsideBar from "../components/AsideBar";
 import Title from "../components/Title";
 import Pagination from "../components/Pagination";
 
@@ -151,8 +152,13 @@ export default function CancelConsult() {
   const currentConsultas = consultas.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div className="flex flex-col items-center px-4 md:px-12 h-full bg-primary mt-8 gap-6">
+    <div className="flex flex-col h-full">
       <Title text="Gestión de Consultas" />
+      <div className="flex flex-1">
+        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+          <AsideBar className="h-full" />
+        </div>
+        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
@@ -239,6 +245,8 @@ export default function CancelConsult() {
           </div>
         </div>
       )}
+      </div>
+    </div>
     </div>
   );
 }

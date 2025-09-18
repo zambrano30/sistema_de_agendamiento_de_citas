@@ -26,7 +26,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-primary shadow-sm p-4 relative">
+    <header className="bg-primary  p-4 relative">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-4">
           <img src="/logo.png" alt="Logo" className="h-12 w-12" />

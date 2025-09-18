@@ -108,14 +108,18 @@ export default function ScheduleConsult() {
   };
 
   return (
-    <div className="flex flex-col items-center px-4 md:px-12 h-full bg-primary mt-8 gap-6">
+    <div className="flex flex-col h-full">
       <Title text="Nueva Consulta" />
-      <AsideBar />
-      
-      <form
-        onSubmit={handleSubmit}
-        className="bg-secondary w-full max-w-[300px] p-6 rounded-lg shadow-md flex flex-col gap-5"
-      >
+      <div className="flex flex-1">
+        <div className="flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+          <AsideBar className="h-full" />
+        </div>
+        <div className="flex-1 flex flex-col items-end px-4 md:px-12 bg-primary mt-8 gap-6 h-full">
+
+        <form
+          onSubmit={handleSubmit}
+          className="bg-secondary w-full max-w-[600px] p-6 rounded-lg shadow-md flex flex-col gap-5"
+        >
         <h3>Ingrese los datos de la consulta</h3>
 
         {error && (
@@ -141,7 +145,7 @@ export default function ScheduleConsult() {
             name="date"
             value={formData.date}
             onChange={(e) => setFormData({...formData, date: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
             min={new Date().toISOString().split('T')[0]}
@@ -158,7 +162,7 @@ export default function ScheduleConsult() {
             name="time"
             value={formData.time}
             onChange={(e) => setFormData({...formData, time: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
@@ -174,7 +178,7 @@ export default function ScheduleConsult() {
             name="veterinarian"
             value={formData.veterinarian}
             onChange={(e) => setFormData({...formData, veterinarian: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
             required
           />
@@ -189,14 +193,14 @@ export default function ScheduleConsult() {
             name="motivo"
             value={formData.motivo}
             onChange={(e) => setFormData({...formData, motivo: e.target.value})}
-            className="bg-white text-black w-[250px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
+            className="bg-white text-black w-[350px] py-1 rounded-xl px-2 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
             rows={3}
             disabled={isLoading}
             required
           />
         </div>
 
-        <div className="flex gap-4 justify-center mt-4">
+        <div className="flex gap-4 justify-end mt-4">
           <button
             type="submit"
             disabled={isLoading}
@@ -225,6 +229,8 @@ export default function ScheduleConsult() {
           </button>
         </div>
       </form>
+      </div>
+    </div>
     </div>
   );
 }
