@@ -19,8 +19,8 @@ const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log('Form submitted:', formData);
+    // Agregar lógica de envío del formulario aquí
+    console.log('Formulario enviado:', formData);
   };
 
   return (
@@ -28,7 +28,7 @@ const RegisterForm = () => {
       <div className="space-y-4">
         <div>
           <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-            First Name
+            Nombre
           </label>
           <input
             type="text"
@@ -42,7 +42,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-            Last Name
+            Apellido
           </label>
           <input
             type="text"
@@ -56,7 +56,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
+            Correo Electrónico
           </label>
           <input
             type="email"
@@ -70,7 +70,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-            Phone
+            Teléfono
           </label>
           <input
             type="tel"
@@ -84,7 +84,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-            Address
+            Dirección
           </label>
           <textarea
             id="address"
@@ -101,7 +101,7 @@ const RegisterForm = () => {
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Register
+            Registrar
           </button>
         </div>
       </div>

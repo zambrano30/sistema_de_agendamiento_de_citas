@@ -35,7 +35,7 @@ export default function HamburgerMenu() {
   return (
     <div className="lg:hidden relative w-full flex justify-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
       {/* Menú hamburguesa con mismo ancho que los formularios */}
-      <div className="bg-primary shadow-sm w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg">
+      <div className=" mt-2 w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg">
         <div className="h-12 sm:h-14 md:h-16 flex items-center justify-start px-2 sm:px-3 md:px-4">
           <button
             onClick={toggleMenu}

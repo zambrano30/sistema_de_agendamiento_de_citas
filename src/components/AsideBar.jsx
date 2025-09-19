@@ -102,7 +102,7 @@ export default function AsideBar() {
       </div>
 
       {/* Desktop sidebar - siempre visible */}
-      <div className="hidden lg:block w-[200px] mr-8 h-full ">
+      <div className="hidden lg:block w-[250px] h-full mt-4  ">
         <div className="bg-secondary shadow-lg rounded-lg p-4 h-full">
           <nav className="space-y-4">
             {menuOptions.map((option, index) => (
@@ -119,6 +119,8 @@ export default function AsideBar() {
               </Link>
             ))}
           </nav>
+          
+          <div className="invisible h-85"></div>
         </div>
       </div>
     </>
